@@ -1,5 +1,5 @@
 import { TbPencilBolt, TbSearch, TbTimelineEventText } from "react-icons/tb"
-import { Navbar, Notification, BlogCard, Hero } from "../components"
+import { Navbar, Notification, BlogCard,} from "../components"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { fetchApi } from "../utils.js"
@@ -28,11 +28,9 @@ function LandingCards() {
 
     if (isLoading) {
         return (
-            <Hero size="large">
-                <div className="box skeleton-block">
+            <div className="container skeleton-block">
 
-                </div>
-            </Hero>
+            </div>
         )
     }
 

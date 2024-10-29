@@ -1,8 +1,9 @@
 import { useFormik } from "formik"
 import { useState } from "react"
 import { TbLock, TbMail, TbStar, TbUser } from "react-icons/tb"
-import { Modal, Navbar, Notification } from "../components"
-import { fetchApi, validate } from '../utils'
+import { Navbar, Notification } from "../../components"
+import { Link } from "react-router-dom"
+import { fetchApi, validateSignup as validate } from '../../utils'
 
 export function SignupPage() {
 
@@ -21,21 +22,24 @@ export function SignupPage() {
             },
             validate,
             onSubmit: values => {
-                fetchApi('/users', 'POST', values)
+                fetchApi('http://127.0.0.1:5000/api/v1/users', 'POST', values)
                     .then(
-                        (value) => {
-                            if (value.status == 400) {
+                        response => {
+                            if (response.status == 400) {
                                 setIsError(true)
+                                setMessage("User already exists")
                             } else {
-                                setIsSuccess(true)
-                                setIsError(false)
+                                response.json()
+                                    .then(
+                                        () => {
+                                            setIsSuccess(true)
+                                        }
+                                    )
                             }
-                            value.json().then(
-                                () => {
-                                    setMessage('User already exists')
-                                }
-                            )
                         }
+                    )
+                    .catch(
+                        () => setIsError(true)
                     )
             }
         },
@@ -45,33 +49,19 @@ export function SignupPage() {
     return (
         <>
             <Navbar />
-            {
-                isSuccess ?
-                    (
-                        <Modal>
-                            <div className="content">
-                                <div className="buttons is-centered">
-                                    <a href="" className="button is-loading is-large">Wait for us to finish</a>
-                                </div>
-                                <p className="title is-1 has-text-success has-text-centered">You are signed in</p>
-                            </div>
-                        </Modal>
-                    )
-                    : null
-            }
             <section className="hero is-medium">
                 <div className="hero-body">
                     <div className="container">
                         <div className="columns is-centered">
                             <div className="column is-6">
                                 <div className="box">
-                                    <form action="post" onSubmit={formik.handleSubmit}>
+                                    <form action="post" onSubmit={formik.handleSubmit} disabled>
                                         {
                                             isError ? (<Notification status="danger">
                                                 {
-                                                  message ? message : "Something happened on our end"
+                                                    message ? message : "Something happened on our end"
                                                 }
-                                             
+
                                             </Notification>) : null
                                         }
                                         <h1 className="title has-text-centered">Sign Up</h1>
@@ -129,11 +119,18 @@ export function SignupPage() {
                                         </div>
                                         <div className="field">
                                             <div className="control">
-                                                <input onChange={formik.handleChange} type="submit" className="button is-primary is-rounded is-fullwidth" />
+                                                <input onChange={formik.handleChange} type="submit" className="button is-primary is-rounded is-fullwidth is-disabled" disabled={isSuccess}/>
                                             </div>
                                         </div>
 
-                                    </form></div>
+                                    </form>
+                                    {
+                                        isSuccess ?
+                                            (<Link href="" className="button is-fullwidth is-rounded is-success mt-3">Visit Dashboard </Link>)
+                                            : null
+                                    }
+
+                                </div>
                             </div>
                         </div>
                     </div>

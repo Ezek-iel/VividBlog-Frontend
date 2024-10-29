@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Hero, BlogCard, Notification } from '../components'
-import { fetchApi } from '../utils'
+import { Hero, BlogCard, Notification } from '../../components'
+import { fetchApi } from '../../utils'
 
 const SERVER_URL = 'http://127.0.0.1:5000/api/v1'
 

@@ -6,11 +6,36 @@ $beige-light: #d0d1cd;
 $beige-lighter: #eff0eb;
 
 // Path to Bulma's sass folder
-@use "bulma/sass" with (
-  $family-primary: '"Nunito", sans-serif',
+@use "bulma/sass" with ($family-primary: '"Nunito", sans-serif',
   $primary: $purple,
   $link: $pink,
 );
+
+@import "bulma/bulma.scss";
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-size: 1.5rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
 
 // Import the Google Font
 @import url("https://fonts.googleapis.com/css?family=Nunito:400,700");

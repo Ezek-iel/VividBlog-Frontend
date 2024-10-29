@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { Hero, Notification } from "../components";
+import { Hero, Notification } from "../../components";
 import { TbHeart, TbMessage, TbMessageHeart, TbPencilBolt } from "react-icons/tb";
-import { fetchApi } from "../utils";
-import { useParams } from "react-router-dom";
+import { fetchApi } from "../../utils";
+import { useParams, Link } from "react-router-dom";
 
 export function SingleBlogPage() {
     const [blog, setBlog] = useState({})
     const [isLoading, setIsLoading] = useState(true)
     const [isError, setIsError] = useState(false)
-     
-    const {id} = useParams()
+
+    const { id } = useParams()
     useEffect(
         () => {
             fetchApi(`http://127.0.0.1:5000/api/v1/blogs/${id}`, 'GET')
@@ -31,14 +31,14 @@ export function SingleBlogPage() {
         }, [id]
     )
 
-    if (isError){
+    if (isError) {
         return (
             <div className="container">
                 <Hero size="fullheight">
                     <div className="container">
                         <Notification status='danger'>
                             <p className="is-size-3 has-text-centered">
-                                Something wrong happened on our end. 
+                                Something wrong happened on our end.
                                 <br />
                                 <strong className="has-text-danger-20">Please refresh the page</strong>
                             </p>
@@ -107,7 +107,7 @@ function Blog({ blog }) {
                 </ul>
                 <br />
                 <p>{blog.conclusion}</p>
-                <p className="is-underlined">Written by <a href="" className="has-text-success">Someone</a></p>
+                <p className="is-underlined">Written by <Link to={`/users/${blog.author_id}`} className="has-text-success">{blog.author_name}</Link></p>
                 <div className="buttons mt-5">
                     <a className="button is-medium">
                         <span className="icon">
@@ -168,7 +168,7 @@ function Comments({ comments }) {
                             <div className="box" key={item.id}>
                                 <div className="content">
                                     {item.message}
-                                    <p className="help is-primary">Written at <strong>{item['date_written']}</strong> by <strong>Author</strong></p>
+                                    <p className="help is-primary">Written at <strong>{item['date_written']}</strong> by <strong>{item.author_name}</strong></p>
                                 </div>
                             </div>
                         )

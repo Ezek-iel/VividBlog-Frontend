@@ -1,24 +1,8 @@
 import { TbMessage } from "react-icons/tb"
-import { fetchApi } from "../utils"
-import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
 
 export function BlogCard({blog}) {
-    
-    const [authorName, setAuthorName] = useState('')
-
-    useEffect(
-        () => {
-            fetchApi(blog.author_url)
-            .then(
-                response => response.json()
-                .then(
-                    value => setAuthorName(value.username)
-                )
-            )
-        }, [blog.author_url]
-    )
     return (
         <div className="column is-4">
             <div className="card">
@@ -32,7 +16,7 @@ export function BlogCard({blog}) {
                                 </span>
                                 {blog.comments_number}
                             </div>
-                            <p className="text">Written by <a href="">{authorName}</a></p>
+                            <p className="text">Written by <Link to={`/users/${blog.author_id}`}>{blog['author_name']}</Link></p>
                         </div>
                         <Link className="button is-fullwidth mt-3 is-primary is-rounded" to={`/blogs/${blog.id}`}>Read</Link>
                     </div>
